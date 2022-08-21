@@ -41,5 +41,5 @@ sudo chmod +x ./tra
 ```
 
 ```
-cp tra /usr/local/bin/tra
+cp ./tra /usr/local/bin/tra
 ```
