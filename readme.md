@@ -33,6 +33,10 @@ git clone https://github.com/kamildemocko/tra-slovnik-sk.git
 ```
 
 ```
+pip3 install -r ./requirements.txt
+```
+
+```
 cd ./tra-slovnik-sk
 ```
 
