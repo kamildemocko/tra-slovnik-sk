@@ -15,9 +15,11 @@ Uses API calls of webpage [slovnik.sk](https://slovnik.aktuality.sk/) to transla
 - get result
 
 ```
+> tra plethora
 EN-SK -- (plethora):
 plethora - nadbytok červených krviniek, nadbytok
 
+> ta bahno
 SK-EN -- (bahno):
 bahno - clarts, dirt bed, scurf, sleech, slop, morass, bog, mud, pulp, scum
 ```
@@ -28,7 +30,16 @@ bahno - clarts, dirt bed, scurf, sleech, slop, morass, bog, mud, pulp, scum
 
 ```
 git clone https://github.com/kamildemocko/tra-slovnik-sk.git
+```
+
+```
 cd ./tra-slovnik-sk
+```
+
+```
 sudo chmod +x ./tra
+```
+
+```
 cp tra /usr/local/bin/tra
 ```
