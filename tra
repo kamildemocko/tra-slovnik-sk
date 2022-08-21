@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+
+import argparse
+from collections import namedtuple
+
+import requests
+from colorama import Fore
+
+
+parser = argparse.ArgumentParser(description="Returns translation of slovak/english word, it's translated both ways")
+parser.add_argument(type=str, help="Word you want to translate", dest="input_word")
+parser.add_argument("-l", "--limit", type=int, help="Limit how many word come back, if found", required=False, default=10)
+args = parser.parse_args()
+
+
+class FromEnSk:
+    Url = namedtuple("Data", "from_ url")
+    from_en = Url("from_en", "https://slovnik.aktuality.sk/api/dictionary/translate/search/en-sk?q={"
+                                  "q}&routePath=/preklad/anglicko-slovensky/&bypass=0)")
+    from_sk = Url("from_sk", "https://slovnik.aktuality.sk/api/dictionary/translate/search/sk-en?q={"
+                                  "q}&routePath=/preklad/slovensko-anglicky/&bypass=0)")
+
+
+QueryResult = namedtuple("QueryResult", "word result")
+QueryParams = namedtuple("QueryParams", "query_word limit_results", defaults=(10,))
+
+
+class Proc:
+    def __init__(self):
+        pass
+        # self.ids = list()
+
+    def _rep(self, q, what, with_):
+        return q.replace(what, with_)
+
+    def _get_req_res(self, data_url: FromEnSk.Url, query_param: QueryParams) -> tuple[bool, list[QueryResult]]:
+        url = self._rep(data_url.url, "{q}", query_param.query_word)
+
+        result = requests.get(url)
+        data = result.json()["data"]
+        items: list = data["regular"]["items"]
+        switched: bool = data["switched"]
+
+        # Get only field we need, limit based on input 
+        filtered = [{d["word_sk"]: d["translation"]} for d in items][:query_param.limit_results]
+        # filtered = [{d["word_sk"]: d["translation"]} for d in items if d["id"] not in self.ids][:query_param.limit_results]
+        # [self.ids.append(d["id"]) for d in items if d["id"] not in self.ids]
+
+        new_dict = dict()
+        if data_url.from_ == "from_en":
+            for item in filtered:
+                v, k = item.popitem()  # from_en k and v are replaced
+                new_dict.setdefault(k, list())
+                new_dict[k].append(v)
+
+        if data_url.from_ == "from_sk":
+            for item in filtered:
+                k, v = item.popitem()
+                new_dict.setdefault(k, list())
+                new_dict[k].append(v)
+
+        return switched, [QueryResult(k, v) for k, v in new_dict.items()]  # [:query_param.limit_results]
+
+    @staticmethod
+    def _print_res(res: list[QueryResult]):
+        for r in res:
+            translations = ", ".join(r.result)
+            print(Fore.BLUE + r.word + Fore.RESET + " - " + Fore.YELLOW + translations + Fore.RESET)
+
+    def translate(self, query_param):
+        was_switched_en_sk, result_en_sk = self._get_req_res(FromEnSk.from_en, query_param)
+        was_switched_sk_en, result_sk_en = self._get_req_res(FromEnSk.from_sk, query_param)
+        en_sk_printed = False
+
+        if not was_switched_en_sk:
+            print(f"EN-SK -- ({query_param.query_word}):")
+            self._print_res(result_en_sk)
+            en_sk_printed = True
+
+        if not was_switched_sk_en:
+            if en_sk_printed:
+                print("`")
+
+            print(f"SK-EN -- ({query_param.query_word}):")
+            self._print_res(result_sk_en)
+
+
+if __name__ == "__main__":
+    proc = Proc()
+
+    q = QueryParams(query_word=args.input_word, limit_results=args.limit)
+    proc.translate(q)
