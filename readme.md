@@ -8,8 +8,6 @@ Uses API calls of webpage [slovnik.sk](https://slovnik.aktuality.sk/) to transla
 
 ## Example of use
 
-### MAC
-
 - open terminal
 - write and confirm your query `tra plethora` or `tra bahno`
 - get result
