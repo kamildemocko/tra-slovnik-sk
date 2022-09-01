@@ -17,7 +17,7 @@ Uses API calls of webpage [slovnik.sk](https://slovnik.aktuality.sk/) to transla
 EN-SK -- (plethora):
 plethora - nadbytok červených krviniek, nadbytok
 
-> ta bahno
+> tra bahno
 SK-EN -- (bahno):
 bahno - clarts, dirt bed, scurf, sleech, slop, morass, bog, mud, pulp, scum
 ```
