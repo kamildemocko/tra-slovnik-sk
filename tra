@@ -7,10 +7,14 @@ import requests
 from colorama import Fore
 
 
-parser = argparse.ArgumentParser(description="Returns translation of slovak/english word, it's translated both ways")
+parser = argparse.ArgumentParser(
+    description="Returns translation of slovak/english word, it's translated both ways\n" \
+                "If you have multiple words, wrap them in quotes '\"' or use '_'/'-' instead of spaces")
 parser.add_argument(type=str, help="Word you want to translate", dest="input_word")
 parser.add_argument("-l", "--limit", type=int, help="Limit how many word come back, if found", required=False, default=10)
+
 args = parser.parse_args()
+args.input_word = args.input_word.replace("_", " ").replace("-", " ")
 
 
 class FromEnSk:
@@ -26,10 +30,6 @@ QueryParams = namedtuple("QueryParams", "query_word limit_results", defaults=(10
 
 
 class Proc:
-    def __init__(self):
-        pass
-        # self.ids = list()
-
     def _rep(self, q, what, with_):
         return q.replace(what, with_)
 
@@ -43,8 +43,6 @@ class Proc:
 
         # Get only field we need, limit based on input 
         filtered = [{d["word_sk"]: d["translation"]} for d in items][:query_param.limit_results]
-        # filtered = [{d["word_sk"]: d["translation"]} for d in items if d["id"] not in self.ids][:query_param.limit_results]
-        # [self.ids.append(d["id"]) for d in items if d["id"] not in self.ids]
 
         new_dict = dict()
         if data_url.from_ == "from_en":
