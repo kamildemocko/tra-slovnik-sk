@@ -22,6 +22,9 @@ SK-EN -- (bahno):
 bahno - clarts, dirt bed, scurf, sleech, slop, morass, bog, mud, pulp, scum
 ```
 
+![image](https://user-images.githubusercontent.com/50048116/187981542-d57ffefd-d3a0-4b28-b751-e67cce5e3561.png)
+
+
 ## Installation
 
 ### MAC
