@@ -33,11 +33,11 @@ git clone https://github.com/kamildemocko/tra-slovnik-sk.git
 ```
 
 ```
-pip3 install -r ./requirements.txt
+cd ./tra-slovnik-sk
 ```
 
 ```
-cd ./tra-slovnik-sk
+pip3 install -r ./requirements.txt
 ```
 
 ```
@@ -47,3 +47,21 @@ sudo chmod +x ./tra
 ```
 cp ./tra /usr/local/bin/tra
 ```
+
+### WINDOWS
+
+Add root folder, where the program will be cloned to PATH (start -> edit system env variables -> environment variables -> Path -> Add -> Path to folder)
+
+```
+git clone https://github.com/kamildemocko/tra-slovnik-sk.git
+```
+
+```
+pip install -r ./requirements.txt
+```
+
+```
+"cd /d PATH_TO_ROOT_FOLDER && python tra-slovnik-sk\tra %*" > ..\tra.cmd
+```
+
+Now you can use command tra INPUT_WORD from cmd, powershell or terminal
