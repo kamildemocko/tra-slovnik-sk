@@ -59,7 +59,7 @@ pip install -r ./requirements.txt
 ```
 
 ```
-"cd /d PATH_TO_ROOT_FOLDER && python tra-slovnik-sk\tra %*" > ..\tra.cmd
+"@echo off && cd /d "D:\progs" && python tra-slovnik-sk\tra %*" > ..\tra.cmd
 ```
 
 Now you can use command tra INPUT_WORD from cmd, powershell or terminal
